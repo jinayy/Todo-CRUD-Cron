@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import User from '../models/User';
+import { generateToken } from '../../utils/jwt';
 
 export const userSignup = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
@@ -41,7 +42,10 @@ export const userLogin = async (req: Request, res: Response): Promise<void> => {
       res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    res.status(200).json({ message: 'Login successful', user });
+    const token = generateToken({ id: user._id, email: user.email });
+
+
+    res.status(200).json({ message: 'Login successful', user, token });
   } catch (error) {
     res.status(500).json({ message: 'Error in Login', error });
   }

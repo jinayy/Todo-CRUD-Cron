@@ -2,10 +2,10 @@ import { Router } from 'express';
 import { userSignup, userLogin, getUsers } from '../controllers/user.controller';
 import { signupValidation, loginValidation } from '../validators/user.validator';
 import { validate } from '../middlewares/validate';
-
+import { authenticate } from './../middlewares/auth'
 const router = Router();
 
 router.post('/signup', signupValidation, validate, userSignup);
 router.post('/login', loginValidation, validate, userLogin); 
-router.get('/users', getUsers);
+router.get('/users', authenticate, getUsers);
 export default router;
