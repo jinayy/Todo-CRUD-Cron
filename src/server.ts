@@ -3,7 +3,7 @@ import connectDB from './database';
 import dotenv from 'dotenv';
 import { expiredTodosCron } from './cron/todo.cron';
 dotenv.config();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 connectDB();
 expiredTodosCron();
